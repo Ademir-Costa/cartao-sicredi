@@ -61,19 +61,19 @@ const CONFIG = {
   site:       "sicredi.com.br/sicrediuniaomsto.coop.br",
   linkedin:   "https://www.linkedin.com/in/gerenteademirccosta/",
   instagram:  "https://instagram.com/ademir_costa.40",
-  qrLink:     "https://ademir-costa.github.io/cartaosicredi/"
+  qrLink:     "https://ademir-costa.github.io/cartao-sicredi/"
 };
 ```
 
-> **Atenção ao QR:** a imagem do QR já está embutida e aponta para `https://ademir-costa.github.io/cartaosicredi/`.
+> **Atenção ao QR:** a imagem do QR já está embutida e aponta para `https://ademir-costa.github.io/cartao-sicredi/`.
 > Se publicar em outro endereço, o QR precisa ser regerado — a legenda abaixo dele acompanha o `qrLink`, mas a imagem não.
 
 ## Publicar no GitHub Pages
 
-1. Crie o repositório (sugestão: `cartaosicredi`).
+1. Crie o repositório (sugestão: `cartao-sicredi`).
 2. Envie o `index.html` para a raiz.
 3. Settings → Pages → Branch `main` / pasta `/ (root)` → Save.
-4. O cartão fica em `https://SEU-USUARIO.github.io/cartaosicredi/`.
+4. O cartão fica em `https://SEU-USUARIO.github.io/cartao-sicredi/`.
 
 ## Imagens dos selos
 
