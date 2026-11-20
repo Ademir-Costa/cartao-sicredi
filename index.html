@@ -188,8 +188,10 @@ body{
   color:var(--muted);
   text-align:center;
 }
-.unit b{
+.unit .u1{ display:block; }
+.unit .u2{
   display:block;
+  margin-top:2px;
   font-weight:600;
   color:var(--green);
   letter-spacing:.12em;
@@ -691,13 +693,25 @@ body{
 }
 
 @media (max-height:700px){
-  .avatar-wrap{ width:64px; height:64px; }
-  .name{ font-size:15.5px; margin-top:7px; }
-  .unit b{ display:inline; }
-  .certs-grid{ gap:4px; }
+  .avatar-wrap{ width:78px; height:78px; }
+  .name{ font-size:18px; margin-top:9px; }
+  .certs-grid{ gap:5px; }
+  .row{ padding:7px 10px; }
+  .addr{ font-size:8.8px; }
+}
+/* no celular o botão de tela cheia do topo já resolve: some a pílula flutuante */
+@media (max-width:520px){
+  .dica-fs{ display:none !important; }
+}
+/* telas muito baixas (paisagem de celular): compacta de verdade */
+@media (max-height:560px){
+  .avatar-wrap{ width:60px; height:60px; }
+  .name{ font-size:15px; margin-top:6px; }
+  .role{ font-size:11px; }
+  .unit{ display:none; }
   .row-lbl{ display:none; }
-  .row{ padding:6px 9px; }
-  .addr{ font-size:8.4px; }
+  .addr{ font-size:8px; }
+  .certs{ margin-top:7px; }
 }
 </style>
 </head>
@@ -918,7 +932,7 @@ const $ = (s) => document.querySelector(s);
    ============================================================ */
 $("#name").textContent = CONFIG.nome;
 $("#role").textContent = CONFIG.cargo;
-$("#unit").innerHTML = CONFIG.unidade + "<b>" + CONFIG.plataforma + "</b>";
+$("#unit").innerHTML = '<span class="u1">' + CONFIG.unidade + '</span><span class="u2">' + CONFIG.plataforma + '</span>';
 $("#addrText").innerHTML = "<b>" + CONFIG.endereco + "</b><br>" + CONFIG.cidade;
 $("#avatar").src = CONFIG.foto;
 $("#avatarLink").href = CONFIG.linkedin;
@@ -1188,6 +1202,38 @@ $("#fsBtn").addEventListener("click", async (e) => {
     toast("use 'adicionar à tela inicial'");
   }
 });
+</script>
+<script>
+/* ---------- auto-ajuste: o cartão nunca passa da tela ---------- */
+(function(){
+  var stage = document.querySelector(".stage");
+  var card  = document.getElementById("card");
+  if (!stage || !card) return;
+  function ajustar(){
+    stage.style.zoom = "";
+    var bs = getComputedStyle(document.body);
+    var padY = (parseFloat(bs.paddingTop) || 0) + (parseFloat(bs.paddingBottom) || 0);
+    var padX = (parseFloat(bs.paddingLeft) || 0) + (parseFloat(bs.paddingRight) || 0);
+    var vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    var vw = window.visualViewport ? window.visualViewport.width  : window.innerWidth;
+    var availH = vh - padY - 10;
+    var availW = vw - padX - 4;
+    var r = card.getBoundingClientRect();
+    if (!r.height || !r.width) return;
+    var s = Math.min(1, availH / r.height, availW / r.width);
+    s = Math.max(s, 0.6);
+    s = Math.floor(s * 1000) / 1000;
+    if (s < 0.999) stage.style.zoom = String(s);
+  }
+  function agenda(){ requestAnimationFrame(ajustar); }
+  window.addEventListener("load", agenda);
+  window.addEventListener("resize", agenda);
+  window.addEventListener("orientationchange", function(){ setTimeout(agenda, 260); });
+  document.addEventListener("fullscreenchange", function(){ setTimeout(agenda, 120); });
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", agenda);
+  setTimeout(agenda, 60);
+  setTimeout(agenda, 400);
+})();
 </script>
 </body>
 </html>
